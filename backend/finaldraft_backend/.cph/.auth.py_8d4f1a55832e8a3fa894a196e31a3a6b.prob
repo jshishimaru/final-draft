@@ -1,0 +1,1 @@
+{"name":"Local: auth","url":"/home/jshishimaru/development/finaldraft/finaldraft_backend/finaldraft_backend/auth.py","tests":[{"id":1729828016418,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/jshishimaru/development/finaldraft/finaldraft_backend/finaldraft_backend/auth.py","group":"local","local":true}

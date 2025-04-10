@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Review Assignment Request</title>
+
+</head>
+
+<body>
+	<div class="header">
+		<h2>New Review Request</h2>
+	</div>
+
+	<div class="content">
+		<p>Hello {{ reviewer_name }},</p>
+
+		<p>You have been tagged to review an assignment </p>
+
+		<div class="details">
+			<h3>Assignment Details:</h3>
+			<p><strong>Title:</strong> {{ assignment.title }}</p>
+			<p><strong>Submission Date:</strong> {{ submission.date }}</p>
+			<p><strong>Repository Link:</strong> {{ submission.repo_link }}</p>
+			{% if submission.remark %}
+			<p><strong>Remarks:</strong> {{ submission.remark }}</p>
+			{% endif %}
+		</div>
+
+		<p>Please review the submission and provide your feedback at your earliest convenience.</p>
+
+		<a href="{{ review_url }}" class="button">Review Submission</a>
+
+		<p style="margin-top: 20px;">
+			Best regards,<br>
+			FinalDraft Team
+		</p>
+	</div>
+</body>
+
+</html>
