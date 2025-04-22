@@ -6,6 +6,7 @@ from finaldraft.views.group import GroupListViewSet, GroupMemberListViewSet
 from finaldraft.views.submission import SubmissionViewSet, SubmissionListViewSet, SubmissionApproveViewSet , SubmissionEditViewSet , CommentViewSet
 from finaldraft.views.attachment import SubmissionAttachmentList , AttachmentURI , AssignmentAttachmentList
 from finaldraft.views.User import UserSelfProfileViewSet , GetallReviewees , GetallReviewers , GetUserStatus , getUsernames , GetAssignmentReviewers , getCompleteUserInfo
+from finaldraft.views import chat
 
 urlpatterns = [
 	path('user/profile/self/' , UserSelfProfileViewSet.as_view() , name='profile'),
@@ -28,4 +29,10 @@ urlpatterns = [
 	path('assignment/submissions/approve/', SubmissionApproveViewSet.as_view() , name='submissionapprove'),
 	path('attachments/uri/', AttachmentURI.as_view() , name='attachmenturi'),
 	path('assignment/submissions/comments/', CommentViewSet.as_view() , name='comment'),
+
+    # REST API endpoints for chat (initial data loading and fallback)
+    # Real-time functionality is handled by WebSockets at ws/chat/{room_id}/
+    path('chat/rooms/', chat.ChatRoomListView.as_view(), name='chat_rooms'),
+    path('chat/rooms/<int:room_id>/', chat.ChatRoomDetailView.as_view(), name='chat_room_detail'),
+    path('chat/rooms/<int:room_id>/messages/', chat.ChatMessageView.as_view(), name='chat_messages'),
 ]

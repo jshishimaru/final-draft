@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.db.models import Q
-from finaldraft.models import Assignment, GroupInfo, User , Subtask , Attachment
+from finaldraft.models import Assignment, GroupInfo, User , Subtask , Attachment , ChatRoom
 from finaldraft.serializers.assignment import AssignmentSerializer
 from finaldraft.serializers.subtask import SubtaskSerializer
 from rest_framework.authentication import SessionAuthentication
@@ -93,6 +93,15 @@ class AssignmentInfoViewSet( View):
 			assignment.reviewee.add(*reviewee_list)
 			assignment.reviewer.add(*reviewer_list)
 
+			room, created = ChatRoom.get_or_create_assignment_chat_room(assignment)
+			
+			# Add the creator, reviewees, and reviewers to the chat room
+			users_to_add = set([request.user])  
+			users_to_add.update(reviewee_list)  
+			users_to_add.update(reviewer_list)  #
+			
+			# Add all collected users to the chat room
+			room.members.add(*list(users_to_add))
 
 			send_to_mail = request.POST.get('send_to_mail', False)
 			if send_to_mail:

@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'finaldraft',
 	'corsheaders',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -97,7 +98,32 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'finaldraft_backend.wsgi.application'
-ASGI_APPLICATION = "finaldraft_backend.asgi.application"
+ASGI_APPLICATION = 'finaldraft_backend.asgi.application'
+
+# Channels Configuration
+try:
+    import redis
+    redis_client = redis.Redis(host='127.0.0.1', port=6379, db=0)
+    redis_client.ping()  # Test if Redis is running
+    
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', 6379)],
+            },
+        },
+    }
+    print("Redis connection successful, using Redis channel layer")
+    
+except (redis.ConnectionError, ImportError):
+    # Fallback to in-memory channel layer
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
+    print("Redis connection failed, using in-memory channel layer")
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
