@@ -90,16 +90,30 @@ export const isAuthenticated = async () => {
 			}
 		});
 		console.log(response.data);
-		if( response.data.is_authenticated === 'True'){
-				return true;
-		}
+		if (response.data.is_authenticated === true || 
+            response.data.is_authenticated === 'true' || 
+            response.data.is_authenticated === 'True' || 
+            response.data.session_authenticated === true) {
+            console.log('User is authenticated');
+            return true;
+        }
 		else{
 			return false;
 		}
 	}
 	catch(error){
 		console.error('Error checking authentication:', error);
-		return false;
+        // Try the debug endpoint as a fallback
+        try {
+            const debugResponse = await axios.get(`${API_URL}debug/auth/`, {
+                withCredentials: true
+            });
+            console.log('Debug auth response:', debugResponse.data);
+            return debugResponse.data.is_authenticated === true;
+        } catch (debugError) {
+            console.error('Debug auth check also failed:', debugError);
+            return false;
+        }
 	}
 }
 

@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+	'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -35,7 +36,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'corsheaders.middleware.CorsMiddleware',
 ]
 
 # REST_FRAMEWORK = {
@@ -44,6 +44,13 @@ MIDDLEWARE = [
 # 			'rest_framework.authentication.TokenAuthentication',],
 #     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated',],
 # 	}
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
+]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -57,6 +64,11 @@ CORS_ALLOW_HEADERS = [
 	'Cross-Origin-Opener-Policy',
 	'referrer-policy',
 	'allow',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Your frontend URL
+    "http://127.0.0.1:5173",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -78,6 +90,7 @@ CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_AGE = 86400 * 21 # 21 days in seconds
 
 TEMPLATES = [
     {
@@ -192,3 +205,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jbsss785@gmail.com'  # Email account username
 EMAIL_HOST_PASSWORD = 'wggh smgo ecna fina'  # Email account password/app password
 EMAIL_USE_TLS = True  # Enable TLS encryption
+
+
+
+# Google OAuth Settings
+GOOGLE_CLIENT_ID = '912019870891-t8dtvni996na210ndp796ituns5b7cgl.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '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'
+GOOGLE_REDIRECT_URI = 'http://localhost:8000/oauth/google/callback/'
+FRONTEND_URL = 'http://localhost:5173'  # Your React/Vue frontend URL

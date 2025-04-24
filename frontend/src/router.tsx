@@ -13,7 +13,8 @@ import SubmitAssignment from './Components/SubmitAssignment';
 import ReviewAssignment from './Components/ReviewAssignment';
 import ProtectedRoute from './Components/ProtectedRoute';
 import UserInfo from './Components/UserInfo';
-// import Assignments from './Components/Assignments'
+import AuthCallback from './components/AuthCallback';
+
 
 const router = createBrowserRouter([
 	
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
 	{
 		path: '/signup',
 		element: <SignUpForm />
+	},
+	{
+		path: '/auth-callback',	
+		element: <AuthCallback />
 	},
 
    {
@@ -52,6 +57,11 @@ const router = createBrowserRouter([
 	    ]
  	},
 
-]);
+],
+{
+	future: {
+	  v7_relativeSplatPath: true
+	}
+});
 
 export default router;

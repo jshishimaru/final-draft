@@ -138,10 +138,26 @@ class LogoutView(View):
 		logout(request)
 		return JsonResponse({'message': 'Logged out successfully'})
 	
+	
 @method_decorator(csrf_exempt, name='dispatch')
 class IsAuthenticated(View):
-	def get(self, request):
-		if request.user.is_authenticated:
-			return JsonResponse({'is_authenticated': 'True'})
-		else:
-			return JsonResponse({'is_authenticated': 'False'}, status=401)
+    def get(self, request):
+        is_authenticated = request.user.is_authenticated
+        session_authenticated = request.session.get('is_authenticated', False)
+        user_id = request.session.get('user_id', None)
+        
+        # Print debug info to server console
+        print(f"Auth check: Django auth={is_authenticated}, Session auth={session_authenticated}, User ID={user_id}, User={request.user}")
+        print(f"Session keys: {list(request.session.keys())}")
+        print(f"Cookies: {request.COOKIES}")
+        
+        # Return comprehensive info for debugging
+        return JsonResponse({
+            'is_authenticated': is_authenticated,
+            'session_authenticated': session_authenticated,
+            'user_id': user_id,
+            'session_id': request.session.session_key,
+            'user': str(request.user),
+            'session_keys': list(request.session.keys()),
+            'cookies': dict(request.COOKIES)
+        })

@@ -32,6 +32,10 @@ function LoginForm() {
 	window.location.href = OAUTH_URL;
 	};
 
+	const handleGoogleLogin = () => {
+	window.location.href = 'http://localhost:8000/oauth/google/authorize/';
+	};
+
 
 	const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
 	if (reason === 'clickaway') {
@@ -175,6 +179,7 @@ function LoginForm() {
 		fontWeight:600,
 	}}
 	variant="contained" 
+	onClick={handleGoogleLogin}
 	name='Google'>
 	Google
 	</Button>
